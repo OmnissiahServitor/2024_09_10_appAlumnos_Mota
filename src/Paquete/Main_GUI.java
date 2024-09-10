@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 
 // Se calificara diseno UI y algo mas
 // entrega 17 de septiembre
-public class Main_GUI {
-    private JPanel panel1;
+public class Main_GUI extends JFrame { // anadir extends JFrame
+    private JPanel pnPrincipal;
     private JTextField txtF_nombre;
     private JButton aceptarButton;
     private JButton cancelarButton;
@@ -23,12 +23,26 @@ public class Main_GUI {
     private JCheckBox chck_discapacidad;
     private JTextField txtCURP;
 
+    private BotonGuardarListener botonGuardarListener;
+
     public Main_GUI() {
+        // agregado el lunes 9 de septiembre de 2024
+        setTitle("Alumnos");
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // si no se pone, se queda activo el hilo de programacion
+
+        setContentPane(pnPrincipal);
+        // pack();
+
         poblarComboBox();
+
+        setLocationRelativeTo(null);
+
+
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                enviarDatos();
             }
         });
         cancelarButton.addActionListener(new ActionListener() {
@@ -39,6 +53,28 @@ public class Main_GUI {
         });
     }
 
+    public void setBotonGuardarListener(BotonGuardarListener listener) {
+        this.botonGuardarListener = listener;
+    } // end setBotonGuardarListener()
+
+    private void enviarDatos() { // toma los datos y los guarda en variables
+        String nombre = txtF_nombre.getText();
+        String apellidoPaterno = txtF_apellidoPaterno.getText();
+        String apellidoMaterno = txtF_apellidoMaterno.getText();
+        String telefono = txtF_telefono.getText();
+        String correo = txtF_correoElectronico.getText();
+        String sexo = cmb_sexo.getSelectedItem().toString();
+        String CURP = txtCURP.getText();
+        Boolean discapacidad = chck_discapacidad.isSelected();
+
+        alumno datos = new alumno(nombre,apellidoPaterno,apellidoMaterno,CURP,telefono,correo,discapacidad);
+
+        if(botonGuardarListener != null){
+            botonGuardarListener.guardando(datos);
+        }
+        Borrar();
+    } // end enviarDatos()
+
     private void Borrar(){
         txtF_nombre.setText("");
         txtF_apellidoPaterno.setText("");
@@ -48,7 +84,7 @@ public class Main_GUI {
         chck_discapacidad.setSelected(false);
         txtCURP.setText("");
         cmb_sexo.setSelectedIndex(0);
-    }
+    } // end borrar()
 
     private void poblarComboBox() {
         DefaultComboBoxModel <Genero> comboBoxModel = (DefaultComboBoxModel<Genero>) cmb_sexo.getModel();
@@ -56,34 +92,6 @@ public class Main_GUI {
         for(Genero genero : Genero.values()){
             comboBoxModel.addElement(genero);
         }
-    }
+    } // end poblarComboBox()
 
-    public static class alumno {
-        private String nombre;
-        private String apellidoPaterno;
-        private String apellidoMaterno;
-        private String curp;
-        private String telefono;
-        private String correo;
-        private boolean discapacidad;
-
-        private int edad;
-
-        public alumno(String nombre, String apellidoPaterno, String apellidoMaterno, String curp, String telefono, String correo, boolean discapacidad) {
-            this.nombre = nombre;
-            this.apellidoPaterno = apellidoPaterno;
-            this.apellidoMaterno = apellidoMaterno;
-            this.curp = curp;
-            this.telefono = telefono;
-            this.correo = correo;
-            this.discapacidad = discapacidad;
-
-        }
-    }
-
-    public enum Genero {
-        Hombre,
-        Mujer
-
-    }
-}
+} // end class Main_GUI
