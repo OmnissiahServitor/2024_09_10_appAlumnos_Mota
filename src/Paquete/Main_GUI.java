@@ -22,7 +22,6 @@ public class Main_GUI extends JFrame { // anadir extends JFrame
     private JComboBox cmb_sexo;
     private JCheckBox chck_discapacidad;
     private JTextField txtCURP;
-
     private BotonGuardarListener botonGuardarListener;
 
     public Main_GUI() {
@@ -32,7 +31,7 @@ public class Main_GUI extends JFrame { // anadir extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // si no se pone, se queda activo el hilo de programacion
 
         setContentPane(pnPrincipal);
-        // pack();
+        pack();
 
         poblarComboBox();
 
@@ -67,7 +66,7 @@ public class Main_GUI extends JFrame { // anadir extends JFrame
         String CURP = txtCURP.getText();
         Boolean discapacidad = chck_discapacidad.isSelected();
 
-        alumno datos = new alumno(nombre,apellidoPaterno,apellidoMaterno,CURP,telefono,correo,discapacidad);
+        alumno datos = new alumno(nombre,apellidoPaterno,apellidoMaterno,CURP,telefono,correo,discapacidad, sexo);
 
         if(botonGuardarListener != null){
             botonGuardarListener.guardando(datos);
